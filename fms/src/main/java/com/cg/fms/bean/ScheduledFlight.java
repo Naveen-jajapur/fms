@@ -38,5 +38,6 @@ public class ScheduledFlight {
 		this.schedule = schedule;
 	}
 	
-
+    
+	
 }

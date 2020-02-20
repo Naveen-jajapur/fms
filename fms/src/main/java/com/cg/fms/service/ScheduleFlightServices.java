@@ -12,10 +12,10 @@ import com.cg.fms.flightexception.FlightException;
 
 public interface ScheduleFlightServices {
 	public int scheduleFlight(ScheduledFlight scheduleFlight) throws FlightException;
-//	public  List<ScheduledFlight> viewScheduledFlights(Airport source, Airport destination, DateTime date) throws FlightException;
-//	public  Flight viewScheduledFlights(BigInteger flightNumber) throws FlightException;
+	public  List<ScheduledFlight> viewScheduledFlights(Airport source, Airport destination, DateTime date) throws FlightException;
+	public  Flight viewScheduledFlights(int flightNumber) throws FlightException;
 	public  List<ScheduledFlight> viewScheduledFlight() throws FlightException;
 	public  ScheduledFlight modifyScheduledFlight(Flight flight,Schedule schedule,int a) throws FlightException;
 	 public     void deleteScheduledFlight(int flightNumber) throws FlightException;
-	 public   void validateScheduledFlight(ScheduledFlight scheduledflight) throws FlightException;
+	
 }

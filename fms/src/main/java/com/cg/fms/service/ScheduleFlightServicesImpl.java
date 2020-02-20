@@ -33,17 +33,29 @@ public class ScheduleFlightServicesImpl implements  ScheduleFlightServices{
 		return daoimpl.scheduleFlight(scheduleFlight);
 	}
 
-//	@Override
-//	public List<ScheduledFlight> viewScheduledFlights(Airport source, Airport destination, DateTime date)  throws FlightException{
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public Flight viewScheduledFlights(BigInteger flightNumber) throws FlightException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public List<ScheduledFlight> viewScheduledFlights(Airport source, Airport destination, DateTime date)  throws FlightException{
+		String str1=source.getAirportCode();
+		String str2=destination.getAirportCode();
+		if(!(str1.matches("[A-Z]{3}"))&&(str2.matches("[A-Z]{3}")))
+		{
+	throw new FlightException("Airport Code should be of 3 Characters in Upper Case( MUM, HYD, BEN ");
+		}
+		
+		
+		return daoimpl.viewScheduledFlights(source, destination, date);
+	}
+
+	@Override
+	public Flight viewScheduledFlights(int flightNumber) throws FlightException {
+		String str= String.valueOf(flightNumber);
+		if(!str.matches("[0-9]{4}"))
+				{
+			throw new FlightException("Flight number should be 4 digits");
+				}
+		
+		return daoimpl.viewScheduledFlights(flightNumber);
+	}
 
 	@Override
 	public List<ScheduledFlight> viewScheduledFlight() throws FlightException {
@@ -58,7 +70,7 @@ public class ScheduleFlightServicesImpl implements  ScheduleFlightServices{
 		
 		if(!str.matches("[0-9]{4}")&&(str1.matches("[A-Z}{3}")))
 				{
-			throw new FlightException("Flight number should be 4 digits and Flight carrier name should contain only 3 characters");
+			throw new FlightException("Flight number should be 4 digits and Airport Code should contain only 3 characters");
 				}
 		return daoimpl.modifyScheduledFlight(flight, schedule,a);
 	}
@@ -73,10 +85,5 @@ public class ScheduleFlightServicesImpl implements  ScheduleFlightServices{
 		daoimpl.deleteScheduledFlight(flightNumber);
 	}
 
-	@Override
-	public void validateScheduledFlight(ScheduledFlight scheduledflight) throws FlightException {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 }

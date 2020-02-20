@@ -3,13 +3,15 @@ package com.cg.fms.bean;
 import java.time.LocalDateTime;
 
 public class Schedule {
+	
 	private Airport sourceAirport;
 	private Airport destinationAirport;
 	private DateTime arrivalTime;
 	private DateTime departureTime;
 	
-	public Schedule(Airport sourceAirport, Airport destinationAirport, DateTime arrivalTime, DateTime departureTime) {
+	public Schedule( Airport sourceAirport, Airport destinationAirport, DateTime arrivalTime, DateTime departureTime) {
 		super();
+		
 		this.sourceAirport = sourceAirport;
 		this.destinationAirport = destinationAirport;
 		this.arrivalTime = arrivalTime;
@@ -18,6 +20,7 @@ public class Schedule {
 	public Schedule() {
 		super();
 	}
+	
 	public Airport getSourceAirport() {
 		return sourceAirport;
 	}

@@ -4,7 +4,7 @@ public class DateTime {
 	
 	private String date;
 	private String hour;
-	public DateTime(String date, String hour) {
+	public DateTime( String date,String hour) {
 		super();
 		this.date = date;
 		this.hour = hour;
