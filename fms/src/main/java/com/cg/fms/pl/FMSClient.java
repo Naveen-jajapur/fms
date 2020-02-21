@@ -99,7 +99,7 @@ public class FMSClient {
 				}
 				}
 				catch(Exception e) {
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
                  break;
 			case 3 :

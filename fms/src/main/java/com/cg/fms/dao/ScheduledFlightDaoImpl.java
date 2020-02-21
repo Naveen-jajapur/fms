@@ -19,44 +19,12 @@ import com.cg.fms.flightexception.FlightException;
 
 public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 
-//	List<Flight> flightList=new ArrayList<>();
-//	List<Airport> sourceList=new ArrayList<>();
-//	List<Airport> destList=new ArrayList<>();
+
 	private Map<Integer,ScheduledFlight> schedflight;
-//
+
 	public  ScheduledFlightDaoImpl() {
 		schedflight = new HashMap<Integer,ScheduledFlight>();
-//		Flight f1= new Flight(1001,"BUSSINESS","INS",100);
-//		Flight f2= new Flight(1002,"ECONOMY","INS",80);
-//		Flight f3= new Flight(1003,"FIRSTCLASS","INS",50);
-//		
-//		Airport s1= new Airport("Rajiv Gandhi International Airport","HYD","Hyderabad");
-//		Airport s2= new Airport("chathrapathi Shivaji International Airport","MUM","Mumbai");
-//		Airport s3= new Airport("Kempoguda Airport","BEN","Bengaluru");
-//		
-//		Airport d1= new Airport("Rajiv Gandhi International Airport","HYD","Hyderabad");
-//		Airport d2= new Airport("chathrapathi Shivaji International Airport","MUM","Mumbai");
-//		Airport d3= new Airport("Kempoguda Airport","BEN","Bengaluru");
-//
-//
-//		
-//	
-//		
-//		flightList.add(f1);
-//		flightList.add(f2);
-//		flightList.add(f3);
-//		
-//		sourceList.add(s1);
-//		sourceList.add(s2);
-//		sourceList.add(s3);
-//		
-//		destList.add(d1);
-//		destList.add(d2);
-//		destList.add(d3);
-//		
-//
-//		
-		
+
 		
 	}
 	@Override
@@ -122,8 +90,8 @@ public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 		List<ScheduledFlight> list = new ArrayList<ScheduledFlight>(col);
 		
 		
-		schedflight.keySet().stream().forEach(p -> System.out.println(p));
-		schedflight.values().stream().forEach(p -> System.out.println(p.getFlight().getFlightNumber()+" "+p.getSchedule().getSourceAirport().getAirportCode()));
+//		schedflight.keySet().stream().forEach(p -> System.out.println(p));
+//		schedflight.values().stream().forEach(p -> System.out.println(p.getFlight().getFlightNumber()+" "+p.getSchedule().getSourceAirport().getAirportCode()));
 
 		return list;
 	}
