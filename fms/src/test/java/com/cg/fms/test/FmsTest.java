@@ -22,16 +22,17 @@ class FmsTest {
 
 	Airport s1 = new Airport("Rajiv Gandhi International Airport", "HYD", "Hyderabad");
 
-	Airport d1 = new Airport("Rajiv Gandhi International Airport", "HYD", "Hyderabad");
+	Airport d1 = new Airport("chathrapathi Shivaji International Airport","MUM","Mumbai");
+	DateTime x = new DateTime("10-02-2019","20");
 
-	Schedule s = new Schedule(s1, d1, new DateTime(), new DateTime());
+	Schedule s = new Schedule(s1, d1, x, new DateTime());
 	ScheduledFlight sf = new ScheduledFlight(f1, 0, s);
 
 	@BeforeEach
 	public void setUp() {
+		
 		dao = new ScheduledFlightDaoImpl();
-
-	}
+    }
 
 	@Test
 	void testScheduleFlight() throws Exception {
@@ -69,4 +70,21 @@ class FmsTest {
 		assertEquals(1001, a.getFlightNumber());
 
 	}
+    @Test
+	void testmodifyScheduledFlight() throws Exception{
+		
+		dao.scheduleFlight(sf);
+		ScheduledFlight g=dao.modifyScheduledFlight(f1, s, 10);
+		assertEquals(f1.getFlightNumber(),g.getFlight().getFlightNumber());
+		
+	}
+    @Test
+    void testviewSchedulesFlights() throws Exception
+    {
+    	dao.scheduleFlight(sf);
+    	List<ScheduledFlight> list = dao.viewScheduledFlights(s1, d1, x);
+    	int a=list.size();
+    	assertEquals(a,list.size());
+    	
+    }
 }
