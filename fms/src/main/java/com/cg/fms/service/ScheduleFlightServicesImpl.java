@@ -1,6 +1,6 @@
 package com.cg.fms.service;
 
-import java.math.BigInteger;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +25,13 @@ public class ScheduleFlightServicesImpl implements  ScheduleFlightServices{
 	@Override
 	public int scheduleFlight(ScheduledFlight scheduleFlight) throws FlightException{
 		String str= String.valueOf(scheduleFlight.getFlight().getFlightNumber());
+		
+		 
 		if(!str.matches("[0-9]{4}"))
 				{
 			throw new FlightException("Flight number should be 4 digits");
 				}
+		
 		
 		return daoimpl.scheduleFlight(scheduleFlight);
 	}

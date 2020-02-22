@@ -5,15 +5,16 @@ import java.util.List;
 
 import com.cg.fms.bean.Airport;
 import com.cg.fms.bean.Flight;
+import com.cg.fms.flightexception.FlightException;
 
 public class Util {
-	static List<Flight> flightList=new ArrayList<Flight>();
+	static  List<Flight> flightList=new ArrayList<Flight>();
 	static List<Airport> sourceList=new ArrayList<Airport>();
 	static List<Airport> destList=new ArrayList<Airport>();
 	
 	
-	static
-	{
+	
+	static {
 		
 		Flight f1= new Flight(1001,"BUSSINESS","INS",100);
 		Flight f2= new Flight(1002,"ECONOMY","INS",80);
@@ -34,26 +35,51 @@ public class Util {
 		sourceList.add(s1);
 		sourceList.add(s2);
 		sourceList.add(s3);
-		
+
 		destList.add(d1);
 		destList.add(d2);
 		destList.add(d3);
-	}
-	public static Flight  searchSourceFlight(int id)
-	{
 
-			Flight f =flightList.stream().filter(p->p.getFlightNumber()==id).findFirst().get();
+	}
+	
+	public static Flight  searchSourceFlight(int id)throws FlightException
+	{
+		Flight f=null;
+		if(flightList.stream().anyMatch(p->p.getFlightNumber()==id))
+		{
+		  f =flightList.stream().filter(p->p.getFlightNumber()==id).findFirst().get();
+		}	
+			
+		else
+		{
+		throw new FlightException(id+""+" Flight number does not exists");
+		}	
 			
 		  return f ;
 	}
-	public static Airport  searchSourceAirport(String sourcecode)
+	public static Airport  searchSourceAirport(String sourcecode) throws FlightException
 	{
-		Airport a =sourceList.stream().filter(p->p.getAirportCode().equals(sourcecode)).findFirst().get();
-		  return a;
+
+	Airport a =null;
+	if(sourceList.stream().anyMatch(p->p.getAirportCode().equals(sourcecode))) {
+		 a =sourceList.stream().filter(p->p.getAirportCode().equals(sourcecode)).findFirst().get();
+		
 	}
-	public static Airport  searchDestAirport(String destcode)
+	else
+		throw new FlightException(" Airport does not exists");
+	  return a;
+	}
+	public static Airport  searchDestAirport(String destcode) throws FlightException
 	{
-		Airport a =destList.stream().filter(p->p.getAirportCode().equals(destcode)).findFirst().get();
+
+	Airport a =null;
+	if(sourceList.stream().anyMatch(p->p.getAirportCode().equals(destcode))) {
+		 a =sourceList.stream().filter(p->p.getAirportCode().equals(destcode)).findFirst().get();
+		
+	}
+	else
+		throw new FlightException(" Airport does not exists");
+		
 		  return a;
 	}
 }

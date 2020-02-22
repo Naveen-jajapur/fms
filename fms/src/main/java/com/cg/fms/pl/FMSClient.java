@@ -1,17 +1,18 @@
 package com.cg.fms.pl;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+
+
+
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
+
 
 import com.cg.fms.bean.Airport;
 import com.cg.fms.bean.DateTime;
 import com.cg.fms.bean.Flight;
 import com.cg.fms.bean.Schedule;
 import com.cg.fms.bean.ScheduledFlight;
+import com.cg.fms.flightexception.FlightException;
 import com.cg.fms.service.ScheduleFlightServicesImpl;
 import com.cg.fms.util.Util;
 
@@ -20,9 +21,7 @@ public class FMSClient {
 	public static void main(String[] args) {
 		Scanner  sc =new Scanner(System.in);
 		ScheduleFlightServicesImpl service= new ScheduleFlightServicesImpl();
-		Flight flight=null;
-		Airport air = null;
-		Schedule sch = null;
+		
 		
 		int choice =0;
 		while(choice!=7) {
@@ -40,15 +39,17 @@ public class FMSClient {
 			case 1:
 				try {
 			    ScheduledFlight schflight=new ScheduledFlight();
-				sc.nextLine();
-				System.out.println(" Enter the Flight number");
+				System.out.println(" Enter the Flight number from the given list ");
+				System.out.println("1.1001 2.1002 3.1003");
 				int flightnum = sc .nextInt();
-				sc.nextLine();
+  			     sc.nextLine();
 				Flight f= Util.searchSourceFlight(flightnum);
-				System.out.println(" Enter the source airport code");
+				System.out.println(" Enter the source airport code from the given list");
+				System.out.println("1.HYD 2.MUM 3.BEN");
 				String sourcecode = sc .nextLine();
 				Airport s= Util.searchSourceAirport(sourcecode);
-				System.out.println("  Enter the destination airport code");
+				System.out.println("  Enter the destination airport code from the given list");
+				System.out.println("1.HYD 2.MUM 3.BEN");
 				String destcode = sc .nextLine();
 				Airport d= Util.searchDestAirport( destcode );
 				System.out.println(" enter the Arrival Date and Time ");
@@ -58,7 +59,7 @@ public class FMSClient {
 				String date2 = sc.next();
 				String time2=sc.next();
 				DateTime dt1=new DateTime(date1,time1);
-				DateTime dt2=new DateTime(date1,time1);
+				DateTime dt2=new DateTime(date2,time2);
 				Schedule s11 = new Schedule(s,d,dt1,dt2);
 				System.out.println(" Enter the available seats ");
 				int no = sc.nextInt();
@@ -66,8 +67,9 @@ public class FMSClient {
 				schflight.setSchedule(s11);
 				schflight.setAvailableSeats(no);
 				service.scheduleFlight(schflight);
+				System.out.println("Flight is scheduled successfully");
 				}
-				catch(Exception e) {
+				catch(FlightException e) {
 					System.out.println(e.getMessage());
 					
 				}
@@ -78,13 +80,12 @@ public class FMSClient {
 				List<ScheduledFlight> list =service.viewScheduledFlight();
 				System.out.println(list.size());
 				for(ScheduledFlight l : list) {
-					int a=l.getAvailableSeats();
+					
 					Flight f=l.getFlight();
 					Schedule s=l.getSchedule();
-					String carrier =f.getCarrierName();
-					String model =f.getFlightModel();
+					
 					int num =f.getFlightNumber();
-					int seat=f.getSeatCapacity();
+					
 				Airport source =s.getSourceAirport();
 				Airport dest =s.getDestinationAirport();
 				String sourcecode =source.getAirportCode();
@@ -96,6 +97,7 @@ public class FMSClient {
 				String ddate =desttime.getDate();
 				String dhour =desttime.getHour();
 					System.out.println(num+" "+sourcecode+" "+" "+destcode+" "+adate+" "+ahour+" "+ddate+" "+dhour);
+					
 				}
 				}
 				catch(Exception e) {
@@ -106,14 +108,17 @@ public class FMSClient {
 				try {
 
 				sc.nextLine();
-				System.out.println(" Enter the Flight number");
+				System.out.println(" Enter the Flight number from the given list ");
+				System.out.println("1.1001 2.1002 3.1003");
 				int flightnum = sc .nextInt();
 				Flight f= Util.searchSourceFlight(flightnum);
 				sc.nextLine();
-				System.out.println(" Enter the source airport code");
+				System.out.println(" Enter the source airport code from the given list");
+				System.out.println("1.HYD 2.MUM 3.BEN");
 				String sourcecode = sc .nextLine();
 				Airport s= Util.searchSourceAirport(sourcecode);
-				System.out.println("  Enter the destination airport code");
+				System.out.println("  Enter the destination airport codefrom the given list");
+				System.out.println("1.HYD 2.MUM 3.BEN");
 				String destcode = sc .nextLine();
 				Airport d= Util.searchDestAirport( destcode );
 				System.out.println(" enter the Arrival Date and Time ");
@@ -123,11 +128,12 @@ public class FMSClient {
 				String date2 = sc.next();
 				String time2=sc.next();
 				DateTime dt1=new DateTime(date1,time1);
-				DateTime dt2=new DateTime(date1,time1);
+				DateTime dt2=new DateTime(date2,time2);
 				Schedule s11 = new Schedule(s,d,dt1,dt2);
 				System.out.println(" Enter the available seats ");
 				int no = sc.nextInt();
 				service.modifyScheduledFlight(f, s11, no);
+				System.out.println("Flight is scheduled successfully");
 				}catch(Exception e) {
 					System.err.println(e.getMessage());
 				}
@@ -135,7 +141,8 @@ public class FMSClient {
 			case 4 :
 				try {
 				sc.nextLine();
-			    System.out.println(" Enter the Flight number");
+				System.out.println(" Enter the Flight number from the given list ");
+				System.out.println("1.1001 2.1002 3.1003");
 			    int flightnum = sc .nextInt();
 			    Flight f= Util.searchSourceFlight(flightnum);
          		service.deleteScheduledFlight(flightnum);  
@@ -161,10 +168,12 @@ public class FMSClient {
 			case 6: 
 				try {
 				sc.nextLine();
-				System.out.println("Enter Source airport code");
+				System.out.println(" Enter the source airport code from the given list");
+				System.out.println("1.HYD 2.MUM 3.BEN");
 				String s=sc.nextLine();
 				Airport sa=Util.searchSourceAirport(s);
-				System.out.println("Enter destination airport code");
+				System.out.println("  Enter the destination airport code from the given list");
+				System.out.println("1.HYD 2.MUM 3.BEN");
 				String d=sc.nextLine();
 				Airport da=Util.searchDestAirport(d);
 				System.out.println("Enter Date");

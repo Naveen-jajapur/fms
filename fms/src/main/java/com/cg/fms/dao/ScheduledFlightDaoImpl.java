@@ -1,14 +1,12 @@
 package com.cg.fms.dao;
 
-import java.math.BigInteger;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 
 import com.cg.fms.bean.Airport;
 import com.cg.fms.bean.DateTime;
@@ -35,6 +33,7 @@ public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 				{
 					throw new FlightException(" Flight is already scheduled");
 				}
+		
 		schedflight.put(scheduledFlight.getFlight().getFlightNumber(), scheduledFlight);
 	
 		return scheduledFlight.getFlight().getFlightNumber();
@@ -63,6 +62,14 @@ public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 				
 				list1.add(x);
 			}
+			else if(sourceCode==destCode)
+			{
+				throw new FlightException("Source airport code and destination code should not be same");
+			}
+			else
+			{
+				throw new FlightException("No Flight is available ");
+			}
 		}
 
 	
@@ -89,9 +96,7 @@ public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 		Collection<ScheduledFlight> col = schedflight.values();
 		List<ScheduledFlight> list = new ArrayList<ScheduledFlight>(col);
 		
-		
-//		schedflight.keySet().stream().forEach(p -> System.out.println(p));
-//		schedflight.values().stream().forEach(p -> System.out.println(p.getFlight().getFlightNumber()+" "+p.getSchedule().getSourceAirport().getAirportCode()));
+
 
 		return list;
 	}
@@ -111,7 +116,7 @@ public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 
 	@Override
 	public void deleteScheduledFlight(int flightNumber) throws FlightException{
-		ScheduledFlight scheduledFlight=null;
+		
 		
 		if(!schedflight.containsKey(flightNumber)) {
 			throw new FlightException(" Flight number does not exist");
