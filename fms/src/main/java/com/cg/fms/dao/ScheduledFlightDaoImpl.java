@@ -18,10 +18,10 @@ import com.cg.fms.flightexception.FlightException;
 public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 
 
-	private Map<Integer,ScheduledFlight> schedflight;
+	private Map<Integer,ScheduledFlight> scheduledFlights;
 
 	public  ScheduledFlightDaoImpl() {
-		schedflight = new HashMap<Integer,ScheduledFlight>();
+		scheduledFlights = new HashMap<Integer,ScheduledFlight>();
 
 		
 	}
@@ -29,12 +29,12 @@ public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 	public int scheduleFlight(ScheduledFlight scheduledFlight) throws FlightException {
 		
 		
-		if(schedflight.containsKey(scheduledFlight.getFlight().getFlightNumber()))
+		if(scheduledFlights.containsKey(scheduledFlight.getFlight().getFlightNumber()))
 				{
 					throw new FlightException(" Flight is already scheduled");
 				}
 		
-		schedflight.put(scheduledFlight.getFlight().getFlightNumber(), scheduledFlight);
+		scheduledFlights.put(scheduledFlight.getFlight().getFlightNumber(), scheduledFlight);
 	
 		return scheduledFlight.getFlight().getFlightNumber();
 
@@ -42,25 +42,25 @@ public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 
 	@Override
 	public List<ScheduledFlight> viewScheduledFlights(Airport source, Airport destination, DateTime dateTime) throws FlightException {
-	List<ScheduledFlight> list1= new ArrayList<ScheduledFlight>();
+	List<ScheduledFlight> listOfScheduledFlights= new ArrayList<ScheduledFlight>();
 
-		String sour=source.getAirportCode();
-		String dest =destination.getAirportCode();
-		String date2 = dateTime.getDate();
-		Collection<ScheduledFlight> col = schedflight.values();
+		String sourceAirportCode=source.getAirportCode();
+		String destinationAirportCode =destination.getAirportCode();
+		String date = dateTime.getDate();
+		Collection<ScheduledFlight> col = scheduledFlights.values();
 		List<ScheduledFlight> list = new ArrayList<ScheduledFlight>(col);
 		for(ScheduledFlight x : list) {
 
 			Schedule s =x.getSchedule();
-			DateTime date =s.getArrivalTime();
-			String date1 =date.getDate();
+			DateTime dateAndTime =s.getArrivalTime();
+			 date =dateAndTime.getDate();
 			Airport source1 =s.getSourceAirport();
 			Airport dest1=s.getDestinationAirport();
 			String sourceCode =source1.getAirportCode();
 			String destCode = dest1.getAirportCode();
-			if(sourceCode.equals(sour)&&destCode.equals(dest)&&date1.equals(date2)) {
+			if(sourceCode.equals(sourceAirportCode)&&destCode.equals(destinationAirportCode)&& dateTime.equals(dateAndTime)) {
 				
-				list1.add(x);
+				listOfScheduledFlights.add(x);
 			}
 			else if(sourceCode==destCode)
 			{
@@ -73,27 +73,27 @@ public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 		}
 
 	
-		return list1;
+		return listOfScheduledFlights;
 	}
 
 	@Override
 	public Flight viewScheduledFlights(int flightNumber) throws FlightException {
-		if(!schedflight.containsKey(flightNumber))
+		if(!scheduledFlights.containsKey(flightNumber))
 		{
 			throw new FlightException(" No Flight is Present ");
 		}
-		Flight f =schedflight.values().stream().map(p->p.getFlight()).filter(p->p.getFlightNumber()==flightNumber).findFirst().get();
+		Flight f =scheduledFlights.values().stream().map(p->p.getFlight()).filter(p->p.getFlightNumber()==flightNumber).findFirst().get();
 		
 		return f;
 	}
 
 	@Override
 	public List<ScheduledFlight> viewScheduledFlight() throws FlightException{
-		if(schedflight.isEmpty())
+		if(scheduledFlights.isEmpty())
 		{
 			throw new FlightException(" No Flight is Scheduled ");
 		}
-		Collection<ScheduledFlight> col = schedflight.values();
+		Collection<ScheduledFlight> col = scheduledFlights.values();
 		List<ScheduledFlight> list = new ArrayList<ScheduledFlight>(col);
 		
 
@@ -104,12 +104,12 @@ public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 	@Override
 	public ScheduledFlight modifyScheduledFlight(Flight flight, Schedule schedule, int seatnumbers) throws FlightException{
 
-		if(!schedflight.containsKey(flight.getFlightNumber())) {
+		if(!scheduledFlights.containsKey(flight.getFlightNumber())) {
 			throw new FlightException(" Flight number does not exist");
 			
 		}
 		ScheduledFlight obj = new ScheduledFlight(flight,seatnumbers,schedule);
-		schedflight.put(obj.getFlight().getFlightNumber(), obj);
+		scheduledFlights.put(obj.getFlight().getFlightNumber(), obj);
 		return obj;
 		
 	}
@@ -118,11 +118,11 @@ public class ScheduledFlightDaoImpl implements ScheduledFlightDao{
 	public void deleteScheduledFlight(int flightNumber) throws FlightException{
 		
 		
-		if(!schedflight.containsKey(flightNumber)) {
+		if(!scheduledFlights.containsKey(flightNumber)) {
 			throw new FlightException(" Flight number does not exist");
 			
 		}
-		schedflight.remove(flightNumber);
+		scheduledFlights.remove(flightNumber);
 		
 		
 	}

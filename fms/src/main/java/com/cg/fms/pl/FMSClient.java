@@ -1,8 +1,5 @@
 package com.cg.fms.pl;
-
-
-
-
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,193 +16,243 @@ import com.cg.fms.util.Util;
 public class FMSClient {
 	
 	public static void main(String[] args) {
-		Scanner  sc =new Scanner(System.in);
+		Scanner  scanner =new Scanner(System.in);
 		ScheduleFlightServicesImpl service= new ScheduleFlightServicesImpl();
 		
 		
 		int choice =0;
-		while(choice!=7) {
-			System.out.println(" 1. ScheduledFlight ");
+		
+		while(choice!=7) 
+			{
+			
+			System.out.println(" 1. Schedule A Flight ");
 			System.out.println(" 2. View list of ScheduledFlights ");
 			System.out.println(" 3. Modify a  ScheduledFlight ");
 			System.out.println(" 4. Delete a ScheduledFlight ");
-			System.out.println(" 5. View a Schedule Flight ");
-			System.out.println(" 6. View Scheduled Flights List");
-			System.out.println(" 7.exit ");
+			System.out.println(" 5. View a Schedule Flight by flight number ");
+			System.out.println(" 6. View list of Scheduled Flights between a source and destination ");
+			System.out.println(" 7. Exit ");
+			try {
 			System.out.println(" Enter your choice ");
-			choice =sc.nextInt();
+			choice =scanner.nextInt();
+			}
+			catch(Exception e)
+			{
+				System.out.println("enter a valid choice");
+				scanner.nextLine();
+			}
 			
 			switch(choice) {
 			case 1:
-				try {
-			    ScheduledFlight schflight=new ScheduledFlight();
+				
+			    ScheduledFlight scheduledFlight=new ScheduledFlight();
 				System.out.println(" Enter the Flight number from the given list ");
 				System.out.println("1.1001 2.1002 3.1003");
-				int flightnum = sc .nextInt();
-  			     sc.nextLine();
-				Flight f= Util.searchSourceFlight(flightnum);
+				try {
+				int flightNumber = scanner .nextInt();
+  			     scanner.nextLine();
+				Flight flight= Util.searchSourceFlight(flightNumber);
 				System.out.println(" Enter the source airport code from the given list");
 				System.out.println("1.HYD 2.MUM 3.BEN");
-				String sourcecode = sc .nextLine();
-				Airport s= Util.searchSourceAirport(sourcecode);
+				String sourceAirportCode = scanner .nextLine();
+				Airport sourceAirport= Util.searchSourceAirport(sourceAirportCode);
 				System.out.println("  Enter the destination airport code from the given list");
 				System.out.println("1.HYD 2.MUM 3.BEN");
-				String destcode = sc .nextLine();
-				Airport d= Util.searchDestAirport( destcode );
+				String destinationAirportCode = scanner .nextLine();
+				Airport destinationAirport= Util.searchDestAirport( destinationAirportCode );
 				System.out.println(" enter the Arrival Date and Time ");
-				String date1 = sc.next();
-				String time1=sc.next();
+				String arrivalDate = scanner.next();
+				String arrivalTime=scanner.next();
 				System.out.println(" enter the Destination Date and Time ");
-				String date2 = sc.next();
-				String time2=sc.next();
-				DateTime dt1=new DateTime(date1,time1);
-				DateTime dt2=new DateTime(date2,time2);
-				Schedule s11 = new Schedule(s,d,dt1,dt2);
+				String destinationDate = scanner.next();
+				String destinationTime=scanner.next();
+				DateTime arrivalDateAndTime=new DateTime(arrivalDate,arrivalTime);
+				DateTime destinationDateAndTime=new DateTime(destinationDate,destinationTime);
+				Schedule schedule = new Schedule(sourceAirport,destinationAirport,arrivalDateAndTime,destinationDateAndTime);
 				System.out.println(" Enter the available seats ");
-				int no = sc.nextInt();
-				schflight.setFlight(f);
-				schflight.setSchedule(s11);
-				schflight.setAvailableSeats(no);
-				service.scheduleFlight(schflight);
+				int numberOfSeats = scanner.nextInt();
+				scheduledFlight.setFlight(flight);
+				scheduledFlight.setSchedule(schedule);
+				scheduledFlight.setAvailableSeats(numberOfSeats);
+				service.scheduleFlight(scheduledFlight);
 				System.out.println("Flight is scheduled successfully");
 				}
+				
 				catch(FlightException e) {
 					System.out.println(e.getMessage());
+					
+				}
+				catch(Exception e)
+				{
+					System.out.println("enter a valid choice");
 					
 				}
                   break;
                
 			case 2:
 				try {
-				List<ScheduledFlight> list =service.viewScheduledFlight();
-				System.out.println(list.size());
-				for(ScheduledFlight l : list) {
+				List<ScheduledFlight> listOfScheduledFlights =service.viewScheduledFlight();
+				//System.out.println(listOfScheduledFlights.size());
+				for(ScheduledFlight scheduledFlights : listOfScheduledFlights) {
 					
-					Flight f=l.getFlight();
-					Schedule s=l.getSchedule();
+					Flight flight=scheduledFlights.getFlight();
+					Schedule schedule=scheduledFlights.getSchedule();
 					
-					int num =f.getFlightNumber();
+					int flightNumber =flight.getFlightNumber();
 					
-				Airport source =s.getSourceAirport();
-				Airport dest =s.getDestinationAirport();
-				String sourcecode =source.getAirportCode();
-				String destcode =dest.getAirportCode();
-				DateTime arr=s.getArrivalTime();
-				DateTime desttime=s.getDepartureTime();
-				String adate =arr.getDate();
-				String ahour = arr.getHour();
-				String ddate =desttime.getDate();
-				String dhour =desttime.getHour();
-					System.out.println(num+" "+sourcecode+" "+" "+destcode+" "+adate+" "+ahour+" "+ddate+" "+dhour);
+				Airport sourceAirport =schedule.getSourceAirport();
+				Airport destinationAirport =schedule.getDestinationAirport();
+				String sourceAiportCode =sourceAirport.getAirportCode();
+				String destinationAirportCode =destinationAirport.getAirportCode();
+				DateTime arrivalDateAndTime=schedule.getArrivalTime();
+				DateTime destinationDateAndTime=schedule.getDepartureTime();
+				String arrivalDate =arrivalDateAndTime.getDate();
+				String arrivalTime = arrivalDateAndTime.getHour();
+				String departureDate =destinationDateAndTime.getDate();
+				String departureTime =destinationDateAndTime.getHour();
+					System.out.println(flightNumber+" "+sourceAiportCode+" "+" "+destinationAirportCode+" "+arrivalDate+" "+arrivalTime+" "+departureDate+" "+departureTime);
 					
 				}
 				}
-				catch(Exception e) {
+				catch(FlightException e) {
 					System.out.println(e.getMessage());
 				}
+				catch(Exception e)
+				{
+					System.out.println("enter a valid choice");
+					
+				}
+				
                  break;
 			case 3 :
 				try {
 
-				sc.nextLine();
+				scanner.nextLine();
 				System.out.println(" Enter the Flight number from the given list ");
 				System.out.println("1.1001 2.1002 3.1003");
-				int flightnum = sc .nextInt();
-				Flight f= Util.searchSourceFlight(flightnum);
-				sc.nextLine();
+				int flightNumber = scanner .nextInt();
+				Flight flight= Util.searchSourceFlight(flightNumber);
+				scanner.nextLine();
 				System.out.println(" Enter the source airport code from the given list");
 				System.out.println("1.HYD 2.MUM 3.BEN");
-				String sourcecode = sc .nextLine();
-				Airport s= Util.searchSourceAirport(sourcecode);
+				String sourceAirportCode = scanner .nextLine();
+				Airport sourceAirport= Util.searchSourceAirport(sourceAirportCode);
 				System.out.println("  Enter the destination airport codefrom the given list");
 				System.out.println("1.HYD 2.MUM 3.BEN");
-				String destcode = sc .nextLine();
-				Airport d= Util.searchDestAirport( destcode );
+				String destinationAirportCode = scanner .nextLine();
+				Airport ddestinationAirport= Util.searchDestAirport( destinationAirportCode );
 				System.out.println(" enter the Arrival Date and Time ");
-				String date1 = sc.next();
-				String time1=sc.next();
+				String arrivalDate = scanner.next();
+				String arrivalTime=scanner.next();
 				System.out.println(" enter the Destination Date and Time ");
-				String date2 = sc.next();
-				String time2=sc.next();
-				DateTime dt1=new DateTime(date1,time1);
-				DateTime dt2=new DateTime(date2,time2);
-				Schedule s11 = new Schedule(s,d,dt1,dt2);
+				String destinationDate = scanner.next();
+				String destinationTime=scanner.next();
+				DateTime arrivalDateAndTime=new DateTime(arrivalDate,arrivalTime);
+				DateTime destinationDateAndTime=new DateTime(destinationDate,destinationTime);
+				Schedule schedule = new Schedule(sourceAirport,ddestinationAirport,arrivalDateAndTime,destinationDateAndTime);
 				System.out.println(" Enter the available seats ");
-				int no = sc.nextInt();
-				service.modifyScheduledFlight(f, s11, no);
+				int numberOfSeats = scanner.nextInt();
+				service.modifyScheduledFlight(flight, schedule, numberOfSeats);
 				System.out.println("Flight is scheduled successfully");
-				}catch(Exception e) {
+				}catch(FlightException e) {
 					System.err.println(e.getMessage());
+				}
+				catch(Exception e)
+				{
+					System.out.println("enter a valid choice");
+					
 				}
 				break;
 			case 4 :
 				try {
-				sc.nextLine();
+				scanner.nextLine();
 				System.out.println(" Enter the Flight number from the given list ");
 				System.out.println("1.1001 2.1002 3.1003");
-			    int flightnum = sc .nextInt();
-			    Flight f= Util.searchSourceFlight(flightnum);
-         		service.deleteScheduledFlight(flightnum);  
+			    int flightNumber = scanner .nextInt();
+			    Flight flight= Util.searchSourceFlight(flightNumber);
+         		service.deleteScheduledFlight(flightNumber);  
 				}
-				catch(Exception e) {
+				catch(FlightException e) {
 					System.err.println(e.getMessage());
+				}
+				catch(Exception e)
+				{
+					System.out.println("enter a valid choice");
+					
 				}
 			    break;
 			case 5:try
 			{
 				System.out.println(" Enter the Flight number ");
-				int fn=sc.nextInt();
-		        Flight fobj= service.viewScheduledFlights(fn);
-				System.out.println(fobj.getFlightNumber()+" "+fobj.getFlightModel()+" "+fobj.getCarrierName()+" "+fobj.getSeatCapacity());
+				int flightNumber=scanner.nextInt();
+		        Flight flight= service.viewScheduledFlights(flightNumber);
+				System.out.println(flight.getFlightNumber()+" "+flight.getFlightModel()+" "+flight.getCarrierName()+" "+flight.getSeatCapacity());
 				
 				
 			}
-			catch(Exception e)
+			catch(FlightException e)
 			{
 				System.out.println(e.getMessage());
+			}
+			catch(Exception e)
+			{
+				System.out.println("enter a valid choice");
+				
 			}
 			    break;
 			case 6: 
 				try {
-				sc.nextLine();
+				scanner.nextLine();
 				System.out.println(" Enter the source airport code from the given list");
 				System.out.println("1.HYD 2.MUM 3.BEN");
-				String s=sc.nextLine();
-				Airport sa=Util.searchSourceAirport(s);
+				String s=scanner.nextLine();
+				Airport sourceAirport=Util.searchSourceAirport(s);
 				System.out.println("  Enter the destination airport code from the given list");
 				System.out.println("1.HYD 2.MUM 3.BEN");
-				String d=sc.nextLine();
-				Airport da=Util.searchDestAirport(d);
+				String sourceAirportCode=scanner.nextLine();
+				Airport destinationAirport=Util.searchDestAirport(sourceAirportCode);
 				System.out.println("Enter Date");
-				String dd=sc.nextLine();
+				String date=scanner.nextLine();
 				System.out.println("Entertime");
-				String tt=sc.nextLine();
-				DateTime dt1=new DateTime(dd,tt);
-				List<ScheduledFlight> l =service.viewScheduledFlights(sa, da,dt1);
-				System.out.println(l.size());
-				for(ScheduledFlight v: l)
+				String time=scanner.nextLine();
+				DateTime dt1=new DateTime(date,time);
+				List<ScheduledFlight> listOfScheduledFlights=service.viewScheduledFlights(sourceAirport, destinationAirport,dt1);
+				System.out.println(listOfScheduledFlights.size());
+				for(ScheduledFlight scheduledFlights: listOfScheduledFlights)
 				{
-					int fno=v.getFlight().getFlightNumber();
-					String fm =v.getFlight().getFlightModel();
-					String cn=v.getFlight().getCarrierName();
-					int seat=v.getFlight().getSeatCapacity();
-					System.out.println(fno+" "+fm+" "+cn+" "+seat);
+					int flightNumber=scheduledFlights.getFlight().getFlightNumber();
+					String flightModel =scheduledFlights.getFlight().getFlightModel();
+					String carrierName=scheduledFlights.getFlight().getCarrierName();
+					int seatCapacity=scheduledFlights.getFlight().getSeatCapacity();
+					System.out.println(flightNumber+" "+flightModel+" "+carrierName+" "+seatCapacity);
 				}
 				
 				
 			}
-			catch(Exception e)
+			catch(FlightException e)
 				{
 				System.out.println(e.getMessage());
+				}
+				catch(Exception e)
+				{
+					System.out.println("enter a valid choice");
+					
 				}
 				break;
 			case 7: System.out.println("THANK YOU");
 			 return;
 			
 		}
+			
+			
+			
+			}
+		
+	
+		}
 		
 		
-	}
+		
+		
+}
 
-}
-}

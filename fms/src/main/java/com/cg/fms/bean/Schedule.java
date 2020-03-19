@@ -30,7 +30,8 @@ public class Schedule {
 	public Airport getDestinationAirport() {
 		return destinationAirport;
 	}
-	public void setDestinationAirport(Airport destinationAirport) {
+	public void setDestinationAirport(Airport destinationAirport) 
+	{
 		this.destinationAirport = destinationAirport;
 	}
 	public DateTime getArrivalTime() {

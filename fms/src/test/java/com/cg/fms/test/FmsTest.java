@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import com.cg.fms.bean.Airport;
 import com.cg.fms.bean.DateTime;
 import com.cg.fms.bean.Flight;
@@ -14,6 +15,7 @@ import com.cg.fms.bean.Schedule;
 import com.cg.fms.bean.ScheduledFlight;
 import com.cg.fms.dao.ScheduledFlightDao;
 import com.cg.fms.dao.ScheduledFlightDaoImpl;
+import com.cg.fms.flightexception.FlightException;
 
 class FmsTest {
 
@@ -35,16 +37,27 @@ class FmsTest {
     }
 
 	@Test
-	void testScheduleFlight() throws Exception {
+	void testScheduleFlight() throws FlightException {
 
 		int num = dao.scheduleFlight(sf);
 
 		assertTrue(num > 0);
 
 	}
+	@Test
+	public void testFindEmployeeByIdNotExist () 
+	{
+		
+		
+	assertThrows(FlightException.class, ()->dao.scheduleFlight(sf));
+//		int num = dao.scheduleFlight(sf);
+//
+//		assertNotNull(num);
+	}
+
 
 	@Test
-	void validateViewScheduledFlight() throws Exception {
+	void validateViewScheduledFlight() throws FlightException {
 
 		dao.scheduleFlight(sf);
 		List<ScheduledFlight> list = dao.viewScheduledFlight();
@@ -52,18 +65,18 @@ class FmsTest {
 
 	}
 
-	@Test
-	void testDelete() throws Exception {
+	//@Test
+//	void testDelete() throws Exception {
+//
+//		dao.scheduleFlight(sf);
+//		List<ScheduledFlight> list = dao.viewScheduledFlight();
+//		dao.deleteScheduledFlight(sf.getFlight().getFlightNumber());
+//		int a = list.size();
+//		assertTrue(a == 0);
+//	}
 
-		dao.scheduleFlight(sf);
-		List<ScheduledFlight> list = dao.viewScheduledFlight();
-		dao.deleteScheduledFlight(sf.getFlight().getFlightNumber());
-		int a = list.size();
-		assertEquals(a, list.size());
-	}
-
 	@Test
-	void testscheduleFlight() throws Exception {
+	void testscheduleFlight() throws FlightException {
 
 		dao.scheduleFlight(sf);
 		Flight a = dao.viewScheduledFlights(sf.getFlight().getFlightNumber());
@@ -71,7 +84,7 @@ class FmsTest {
 
 	}
     @Test
-	void testmodifyScheduledFlight() throws Exception{
+	void testmodifyScheduledFlight() throws FlightException{
 		
 		dao.scheduleFlight(sf);
 		ScheduledFlight g=dao.modifyScheduledFlight(f1, s, 10);
@@ -79,12 +92,12 @@ class FmsTest {
 		
 	}
     @Test
-    void testviewSchedulesFlights() throws Exception
+    void testviewSchedulesFlights() throws FlightException
     {
     	dao.scheduleFlight(sf);
     	List<ScheduledFlight> list = dao.viewScheduledFlights(s1, d1, x);
-    	int a=list.size();
-    	assertEquals(a,list.size());
+    	
+    	assertEquals(1,list.size());
     	
     }
 }

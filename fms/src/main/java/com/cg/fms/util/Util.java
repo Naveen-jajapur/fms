@@ -8,78 +8,78 @@ import com.cg.fms.bean.Flight;
 import com.cg.fms.flightexception.FlightException;
 
 public class Util {
-	static  List<Flight> flightList=new ArrayList<Flight>();
-	static List<Airport> sourceList=new ArrayList<Airport>();
-	static List<Airport> destList=new ArrayList<Airport>();
+	static  List<Flight> listOfFlights=new ArrayList<Flight>();
+	static List<Airport> listOfSourceAirports=new ArrayList<Airport>();
+	static List<Airport> listOfDestinationAirports=new ArrayList<Airport>();
 	
 	
 	
 	static {
 		
-		Flight f1= new Flight(1001,"BUSSINESS","INS",100);
-		Flight f2= new Flight(1002,"ECONOMY","INS",80);
-		Flight f3= new Flight(1003,"FIRSTCLASS","INS",50);
+		Flight flight1= new Flight(1001,"BUSSINESS","INS",100);
+		Flight flight2= new Flight(1002,"ECONOMY","INS",80);
+		Flight flight3= new Flight(1003,"FIRSTCLASS","INS",50);
 		
-		Airport s1= new Airport("Rajiv Gandhi International Airport","HYD","Hyderabad");
-		Airport s2= new Airport("chathrapathi Shivaji International Airport","MUM","Mumbai");
-		Airport s3= new Airport("Kempoguda Airport","BEN","Bengaluru");
+		Airport sourceAirport1= new Airport("Rajiv Gandhi International Airport","HYD","Hyderabad");
+		Airport sourceAirport2= new Airport("chathrapathi Shivaji International Airport","MUM","Mumbai");
+		Airport sourceAirport3= new Airport("Kempoguda Airport","BEN","Bengaluru");
 		
-		Airport d1= new Airport("Rajiv Gandhi International Airport","HYD","Hyderabad");
-		Airport d2= new Airport("chathrapathi Shivaji International Airport","MUM","Mumbai");
-		Airport d3= new Airport("Kempoguda Airport","BEN","Bengaluru");
+		Airport destinationAirport1= new Airport("Rajiv Gandhi International Airport","HYD","Hyderabad");
+		Airport destinationAirport2= new Airport("chathrapathi Shivaji International Airport","MUM","Mumbai");
+		Airport destinationAirport3= new Airport("Kempoguda Airport","BEN","Bengaluru");
 		
-		flightList.add(f1);
-		flightList.add(f2);
-		flightList.add(f3);
+		listOfFlights.add(flight1);
+		listOfFlights.add(flight2);
+		listOfFlights.add(flight3);
 		
-		sourceList.add(s1);
-		sourceList.add(s2);
-		sourceList.add(s3);
+		listOfSourceAirports.add(sourceAirport1);
+		listOfSourceAirports.add(sourceAirport2);
+		listOfSourceAirports.add(sourceAirport3);
 
-		destList.add(d1);
-		destList.add(d2);
-		destList.add(d3);
+		listOfDestinationAirports.add(destinationAirport1);
+		listOfDestinationAirports.add(destinationAirport2);
+		listOfDestinationAirports.add(destinationAirport3);
 
 	}
 	
-	public static Flight  searchSourceFlight(int id)throws FlightException
+	public static Flight  searchSourceFlight(int flightNumber)throws FlightException
 	{
-		Flight f=null;
-		if(flightList.stream().anyMatch(p->p.getFlightNumber()==id))
+		Flight flight=null;
+		if(listOfFlights.stream().anyMatch(p->p.getFlightNumber()==flightNumber))
 		{
-		  f =flightList.stream().filter(p->p.getFlightNumber()==id).findFirst().get();
+		  flight =listOfFlights.stream().filter(p->p.getFlightNumber()==flightNumber).findFirst().get();
 		}	
 			
 		else
 		{
-		throw new FlightException(id+""+" Flight number does not exists");
+		throw new FlightException(flightNumber+""+" Flight number does not exists");
 		}	
 			
-		  return f ;
+		  return flight ;
 	}
-	public static Airport  searchSourceAirport(String sourcecode) throws FlightException
+	public static Airport  searchSourceAirport(String sourceAirportCode) throws FlightException
 	{
 
-	Airport a =null;
-	if(sourceList.stream().anyMatch(p->p.getAirportCode().equals(sourcecode))) {
-		 a =sourceList.stream().filter(p->p.getAirportCode().equals(sourcecode)).findFirst().get();
+	Airport sourceAirport =null;
+	if(listOfSourceAirports.stream().anyMatch(p->p.getAirportCode().equals(sourceAirportCode))) {
+		 sourceAirport =listOfSourceAirports.stream().filter(p->p.getAirportCode().equals(sourceAirportCode)).findFirst().get();
 		
 	}
 	else
 		throw new FlightException(" Airport does not exists");
-	  return a;
+	  return sourceAirport;
 	}
-	public static Airport  searchDestAirport(String destcode) throws FlightException
+	public static Airport  searchDestAirport(String destinationAirportCode) throws FlightException
 	{
 
-	Airport a =null;
-	if(sourceList.stream().anyMatch(p->p.getAirportCode().equals(destcode))) {
-		 a =sourceList.stream().filter(p->p.getAirportCode().equals(destcode)).findFirst().get();
+	Airport destinationAirport =null;
+	if(listOfSourceAirports.stream().anyMatch(p->p.getAirportCode().equals(destinationAirportCode))) {
+		 destinationAirport =listOfSourceAirports.stream().filter(p->p.getAirportCode().equals(destinationAirportCode)).findFirst().get();
 		
 	}
 	else
 		throw new FlightException(" Airport does not exists");
 		
-		  return a;
+		  return destinationAirport;
 	}
 }
