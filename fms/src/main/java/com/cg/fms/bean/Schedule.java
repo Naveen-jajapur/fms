@@ -1,26 +1,37 @@
 package com.cg.fms.bean;
 
-
+import java.time.LocalDateTime;
 
 public class Schedule {
 	
 	private Airport sourceAirport;
 	private Airport destinationAirport;
-	private DateTime arrivalTime;
-	private DateTime departureTime;
+	private  LocalDateTime arrivalDateAndTime;
+	private  LocalDateTime departureDateAndTime;
 	
-	public Schedule( Airport sourceAirport, Airport destinationAirport, DateTime arrivalTime, DateTime departureTime) {
-		super();
-		
-		this.sourceAirport = sourceAirport;
-		this.destinationAirport = destinationAirport;
-		this.arrivalTime = arrivalTime;
-		this.departureTime = departureTime;
-	}
+	
+	
+//	public Schedule( Airport sourceAirport, Airport destinationAirport, LocalDateTime arrivalDateAndTime, LocalDateTime departureDateAndTime) {
+//		super();
+//		
+//		this.sourceAirport = sourceAirport;
+//		this.destinationAirport = destinationAirport;
+//        this.arrivalDateAndTime = arrivalDateAndTime;
+//	this.departureDateAndTime = departureDateAndTime;
+//	}
 	public Schedule() {
 		super();
 	}
 	
+	public Schedule(Airport sourceAirport, Airport destinationAirport, LocalDateTime arrivalDateAndTime,
+		LocalDateTime departureDateAndTime) {
+	super();
+	this.sourceAirport = sourceAirport;
+	this.destinationAirport = destinationAirport;
+	this.arrivalDateAndTime = arrivalDateAndTime;
+	this.departureDateAndTime = departureDateAndTime;
+}
+
 	public Airport getSourceAirport() {
 		return sourceAirport;
 	}
@@ -34,17 +45,17 @@ public class Schedule {
 	{
 		this.destinationAirport = destinationAirport;
 	}
-	public DateTime getArrivalTime() {
-		return arrivalTime;
+	public LocalDateTime getArrivalDateAndTime() {
+		return arrivalDateAndTime;
 	}
-	public void setArrivalTime(DateTime arrivalTime) {
-		this.arrivalTime = arrivalTime;
+	public void setArrivalDateAndTime(LocalDateTime arrivalDateAndTime) {
+		this.arrivalDateAndTime = arrivalDateAndTime;
 	}
-	public DateTime getDepartureTime() {
-		return departureTime;
+	public LocalDateTime getDepartureDateAndTime() {
+		return departureDateAndTime;
 	}
-	public void setDepartureTime(DateTime departureTime) {
-		this.departureTime = departureTime;
+	public void setDepartureDateAndTime(LocalDateTime departureDateAndTime) {
+		this.departureDateAndTime = departureDateAndTime;
 	}
 
 }
